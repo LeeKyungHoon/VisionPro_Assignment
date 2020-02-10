@@ -16,5 +16,10 @@ namespace VisionPro_Assignment
         {
             InitializeComponent();
         }
+
+        private void Mainform_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
