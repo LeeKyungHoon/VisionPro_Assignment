@@ -16,9 +16,19 @@ namespace VisionPro_Assignment
 {
     public partial class SettingForm : Form
     {
-        private static PMAlignPattern pattern = new PMAlignPattern();
-
         Mainform main = null;
+
+        #region Pattern Params
+
+        private bool pEnable = true;
+        private CogPMAlignPattern pattern = new CogPMAlignPattern();
+        private CogPMAlignResult pResult = new CogPMAlignResult();
+        private CogPMAlignRunParams pRunParams = new CogPMAlignRunParams();
+        private RegionShape pTrainShape = new RegionShape();
+        private ICogRegion pTrainRegionShape = null;
+
+        #endregion
+
 
         public SettingForm()
         {
@@ -31,31 +41,62 @@ namespace VisionPro_Assignment
             main = f;
         }
 
-
-        private void PMAlignEnableChkBox_CheckedChanged(object sender, EventArgs e)
+        private void SettingForm_Load(object sender, EventArgs e)
         {
-            if (PMAlignEnableChkBox.Checked)
+            pTrainShape.NoneShape(main.Display.Image);
+            pAdjustRegionShapeComboBox.SelectedIndex = 4;
+            pSearchRegionShapeComboBox.SelectedIndex = 4;
+        }
+
+        private void pEanbleChkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (pEnableChkBox.Checked)
             {
-                pattern.PMAlignEnable = true;
-            }else
+                pEnable = true;
+            }
+            else
             {
-                pattern.PMAlignEnable = false;
+                pEnable = false;
             }
         }
 
-        private void patternTrainRegionBtn_Click(object sender, EventArgs e)
+        private void pImageGrabBtn_Click(object sender, EventArgs e)
         {
-            pattern.SetTrainRegion(5);
+            pattern.TrainImage = main.Display.Image;
         }
 
-        private void patternSearchRegionBtn_Click(object sender, EventArgs e)
+        private void pAdjustRegionBtn_Click(object sender, EventArgs e)
+        {
+            pTrainShape.GetShape(ref pTrainRegionShape, pAdjustRegionShapeComboBox.SelectedIndex);
+
+            pTrainShape.DisplayGraphic(main.Display, pTrainRegionShape);
+
+        }
+
+        private void pRegisterBtn_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void pRegionShapeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void pAdjustRegionShapeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-          
+
+            if (!(pTrainShape is null))
+            {
+                pTrainShape.GetShape(ref pTrainRegionShape, pAdjustRegionShapeComboBox.SelectedIndex);
+
+
+              
+
+            }
+
         }
+
+        private void pSearchRegionShapeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
     }
 }

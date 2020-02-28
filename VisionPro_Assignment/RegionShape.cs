@@ -5,80 +5,74 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Cognex.VisionPro;
+using Cognex.VisionPro.Display;
 
 namespace VisionPro_Assignment
 {
     class RegionShape
     {
 
-        private CogCircle circle = null;
-        private CogEllipse ellipse = null;
-        private CogPolygon polygon = null;
-        private CogRectangle rectangle = null;
-        private CogRectangleAffine rectangleAffine = null;
-        private CogCircularAnnulusSection circularAnnulusSection = null;
-        private CogEllipticalAnnulusSection ellipticalAnnulusSection = null;
+        private CogRectangle none = new CogRectangle();
+        private CogCircle circle = new CogCircle();
+        private CogEllipse ellipse = new CogEllipse();
+        private CogPolygon polygon = new CogPolygon();
+        private CogRectangle rectangle = new CogRectangle();
+        private CogRectangleAffine rectangleAffine = new CogRectangleAffine();
+        private CogCircularAnnulusSection circularAnnulusSection = new CogCircularAnnulusSection();
+        private CogEllipticalAnnulusSection ellipticalAnnulusSection = new CogEllipticalAnnulusSection();
 
+        public void NoneShape(ICogImage image)
+        {
+            none.SetXYWidthHeight(0, 0, image.Width, image.Height);
+        }
 
-        public void SetTrainRegionShape(ref ICogRegion region, int idx)
+        public void GetShape(ref ICogRegion shape, int idx)
         {
             switch (idx)
             {
                 case 0:
+                    shape = none;
                     break;
                 case 1:
-                    if (circle is null)
-                    {
-                        circle = new CogCircle();
-                    }
-                    region = circle;
+                    shape = circle;
                     break;
                 case 2:
-                    if (ellipse is null)
-                    {
-                        ellipse = new CogEllipse();
-                    }
-                    region = ellipse;
+                    shape = ellipse;
                     break;
                 case 3:
-                    if (polygon is null)
-                    {
-                        polygon = new CogPolygon();
-                    }
-                    region = polygon;
+                    shape = polygon;
                     break;
                 case 4:
-                    if (rectangle is null)
-                    {
-                        rectangle = new CogRectangle();
-                    }
-                    region = rectangle;
+                    shape = rectangle;
                     break;
                 case 5:
-                    if (rectangleAffine is null)
-                    {
-                        rectangleAffine = new CogRectangleAffine();
-                    }
-                    region = rectangleAffine;
+                    shape = rectangleAffine;
                     break;
                 case 6:
-                    if (circularAnnulusSection is null)
-                    {
-                        circularAnnulusSection = new CogCircularAnnulusSection();
-                    }
-                    region = circularAnnulusSection;
+                    shape = circularAnnulusSection;
                     break;
                 case 7:
-                    if (ellipticalAnnulusSection is null)
-                    {
-                        ellipticalAnnulusSection = new CogEllipticalAnnulusSection();
-                    }
-                    region = ellipticalAnnulusSection;
-                    break;
-                default:
+                    shape = ellipticalAnnulusSection;
                     break;
             }
-
         }
+
+        public void DisplayGraphic(CogDisplay display, ICogRegion shape)
+        {
+            ICogGraphicInteractive pTrainInteractive = null;
+
+            pTrainInteractive = (ICogGraphicInteractive)shape;
+            pTrainInteractive.DragLineStyle = CogGraphicLineStyleConstants.Solid;
+            pTrainInteractive.LineStyle = CogGraphicLineStyleConstants.Solid;
+            pTrainInteractive.SelectedLineStyle = CogGraphicLineStyleConstants.Solid;
+            pTrainInteractive.MouseCursor = CogStandardCursorConstants.ManipulableGraphic;
+            pTrainInteractive.GraphicDOFEnableBase = CogGraphicDOFConstants.All;
+            pTrainInteractive.Interactive = true;
+
+            display.InteractiveGraphics.Clear();
+            display.InteractiveGraphics.Add(pTrainInteractive, "", false);
+        }
+
+
     }
 }
