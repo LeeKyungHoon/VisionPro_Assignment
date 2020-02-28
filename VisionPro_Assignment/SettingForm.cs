@@ -16,7 +16,7 @@ namespace VisionPro_Assignment
 {
     public partial class SettingForm : Form
     {
-        private static RegionControl rControl = new RegionControl();
+        private static PMAlignPattern pattern = new PMAlignPattern();
 
         Mainform main = null;
 
@@ -31,9 +31,31 @@ namespace VisionPro_Assignment
             main = f;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+
+        private void PMAlignEnableChkBox_CheckedChanged(object sender, EventArgs e)
         {
-            rControl.GraphicInteractiveControl(main.Diplay, RegionConstants.Circle);
+            if (PMAlignEnableChkBox.Checked)
+            {
+                pattern.PMAlignEnable = true;
+            }else
+            {
+                pattern.PMAlignEnable = false;
+            }
+        }
+
+        private void patternTrainRegionBtn_Click(object sender, EventArgs e)
+        {
+            pattern.SetTrainRegion(5);
+        }
+
+        private void patternSearchRegionBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pRegionShapeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+          
         }
     }
 }

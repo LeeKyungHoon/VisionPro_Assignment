@@ -54,7 +54,7 @@ namespace VisionPro_Assignment
             }
         }
 
-        public CogDisplay Diplay
+        public CogDisplay Display
         {
             get => cogDisplay1; 
         }
