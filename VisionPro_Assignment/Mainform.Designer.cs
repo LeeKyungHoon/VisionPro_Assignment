@@ -34,7 +34,7 @@
             this.cogDisplay1 = new Cognex.VisionPro.Display.CogDisplay();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.SettingBtn = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cogDisplay1)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -78,7 +78,7 @@
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Controls.Add(this.button1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.button2, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.SettingBtn, 0, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(652, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -99,16 +99,16 @@
             this.button1.Text = "이미지경로";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // SettingBtn
             // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button2.Location = new System.Drawing.Point(3, 47);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(139, 60);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "설정";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.SettingBtn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SettingBtn.Location = new System.Drawing.Point(3, 47);
+            this.SettingBtn.Name = "SettingBtn";
+            this.SettingBtn.Size = new System.Drawing.Size(139, 60);
+            this.SettingBtn.TabIndex = 1;
+            this.SettingBtn.Text = "설정";
+            this.SettingBtn.UseVisualStyleBackColor = true;
+            this.SettingBtn.Click += new System.EventHandler(this.SettingBtn_Click);
             // 
             // Mainform
             // 
@@ -132,7 +132,7 @@
         private Cognex.VisionPro.Display.CogDisplay cogDisplay1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button SettingBtn;
     }
 }
 

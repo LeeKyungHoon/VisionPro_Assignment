@@ -4,73 +4,57 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 using Cognex.VisionPro;
-using Cognex.VisionPro.Blob;
-using Cognex.VisionPro.CalibFix;
-using Cognex.VisionPro.Caliper;
-using Cognex.VisionPro.Display;
-using Cognex.VisionPro.ImageFile;
-using Cognex.VisionPro.ImageProcessing;
 using Cognex.VisionPro.PMAlign;
+using Cognex.VisionPro.Display;
+using Cognex.VisionPro.Exceptions;
+using Cognex.VisionPro.ImageFile;
 using Cognex.VisionPro.ToolGroup;
 
 namespace VisionPro_Assignment
 {
-    class PMAlignPattern
+    class PMAlignPattern : RegionShape
     {
-        private bool pMAlignEnable = false;
-        private bool pAutoEdgeThresholdEnable = false;
+        #region Params
+        private static bool pEnable = true;
 
-        private RegionShape shape = new RegionShape();
+        private CogPMAlignPattern pattern = new CogPMAlignPattern();
+        private CogPMAlignRunParams pRunParams = new CogPMAlignRunParams();
+        private CogPMAlignZoneAngle pZoneAngle = new CogPMAlignZoneAngle();
+        private CogPMAlignZoneScale pZoneScale = new CogPMAlignZoneScale();
+        private CogPMAlignResult pResult = new CogPMAlignResult();
 
-        private CogPMAlignPattern pMAlignPattern = new CogPMAlignPattern();
-        private CogPMAlignResult pMAlignResult = new CogPMAlignResult();
-        private CogPMAlignRunParams pMAlignRunParams = new CogPMAlignRunParams();
-        private CogPMAlignTool pMAlignTool = new CogPMAlignTool();
+        private static ICogRegion pSearchRegion = null;
 
-        public bool PMAlignEnable
+        #endregion
+
+        public bool Enable
         {
-            get => pMAlignEnable;
-            set => pMAlignEnable = value;
-        }
-
-        public bool PatternAutoEdgeThresholdEnable
-        {
-            get => pAutoEdgeThresholdEnable;
-            set => pAutoEdgeThresholdEnable = value;
+            get => pEnable;
+            set => pEnable = value;
         }
 
 
-        public void SetTrainRegion(int idx=4)
+        public ICogImage GrabImage
         {
-            ICogRegion region = null;
-            pMAlignPattern.TrainRegion = region;
-        }
-        public void AdjustRegion(CogDisplay display)
-        {
-            ICogGraphicInteractive InteractiveGraphic = (ICogGraphicInteractive)pMAlignPattern.TrainRegion;
-
-            InteractiveGraphic.Interactive = true;
-            InteractiveGraphic.DragLineStyle = CogGraphicLineStyleConstants.Solid;
-            InteractiveGraphic.GraphicDOFEnableBase = CogGraphicDOFConstants.All;
-            InteractiveGraphic.LineStyle = CogGraphicLineStyleConstants.Solid;
-            InteractiveGraphic.MouseCursor = CogStandardCursorConstants.ManipulableGraphic;
-            InteractiveGraphic.SelectedLineStyle = CogGraphicLineStyleConstants.Solid;
-
-            display.InteractiveGraphics.Add(InteractiveGraphic, "", false);
-
-        }
-        
-        public void TrainImageGrab(ICogImage image)
-        {
-            pMAlignPattern.TrainImage = image;
+            set => pattern.TrainImage = value;
         }
 
-        public void PatternTrain()
+        public ICogRegion TrainRegion
         {
-            pMAlignPattern.Train();
+            set => pattern.TrainRegion = value;
         }
+
+        public ICogRegion SearchRegion
+        {
+            set => pSearchRegion = value;
+        }
+
+        public void Train()
+        {
+            pattern.Train();
+        }
+
 
     }
 }

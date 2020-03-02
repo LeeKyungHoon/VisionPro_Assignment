@@ -9,25 +9,19 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Cognex.VisionPro;
-using Cognex.VisionPro.PMAlign;
 using Cognex.VisionPro.Display;
 
 namespace VisionPro_Assignment
 {
+    public delegate void GraphicInteractiveEventHander(ICogGraphicInteractive graphicInteractive);
+
     public partial class SettingForm : Form
     {
-        Mainform main = null;
+        public GraphicInteractiveEventHander graphicInteractiveEvent;
 
-        #region Pattern Params
+        private static PMAlignPattern pattern = new PMAlignPattern();
 
-        private bool pEnable = true;
-        private CogPMAlignPattern pattern = new CogPMAlignPattern();
-        private CogPMAlignResult pResult = new CogPMAlignResult();
-        private CogPMAlignRunParams pRunParams = new CogPMAlignRunParams();
-        private RegionShape pTrainShape = new RegionShape();
-        private ICogRegion pTrainRegionShape = null;
-
-        #endregion
+        private static ICogImage _image = null;
 
 
         public SettingForm()
@@ -35,42 +29,38 @@ namespace VisionPro_Assignment
             InitializeComponent();
         }
 
-        public SettingForm(Mainform f)
+        public ICogImage SetImage
         {
-            InitializeComponent();
-            main = f;
+            set => _image = value;
         }
 
         private void SettingForm_Load(object sender, EventArgs e)
         {
-            pTrainShape.NoneShape(main.Display.Image);
             pAdjustRegionShapeComboBox.SelectedIndex = 4;
-            pSearchRegionShapeComboBox.SelectedIndex = 4;
         }
 
         private void pEanbleChkBox_CheckedChanged(object sender, EventArgs e)
         {
             if (pEnableChkBox.Checked)
             {
-                pEnable = true;
+                pattern.Enable = true;
             }
             else
             {
-                pEnable = false;
+                pattern.Enable = false;
             }
         }
 
         private void pImageGrabBtn_Click(object sender, EventArgs e)
         {
-            pattern.TrainImage = main.Display.Image;
+            pattern.GrabImage = _image;
         }
 
         private void pAdjustRegionBtn_Click(object sender, EventArgs e)
         {
-            pTrainShape.GetShape(ref pTrainRegionShape, pAdjustRegionShapeComboBox.SelectedIndex);
-
-            pTrainShape.DisplayGraphic(main.Display, pTrainRegionShape);
-
+            pattern.GetShape(pAdjustRegionShapeComboBox.SelectedIndex);
+            pattern.DisplayGraphic();
+            graphicInteractiveEvent(pattern.GetGraphicInteractive);
         }
 
         private void pRegisterBtn_Click(object sender, EventArgs e)
@@ -80,15 +70,6 @@ namespace VisionPro_Assignment
 
         private void pAdjustRegionShapeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            if (!(pTrainShape is null))
-            {
-                pTrainShape.GetShape(ref pTrainRegionShape, pAdjustRegionShapeComboBox.SelectedIndex);
-
-
-              
-
-            }
 
         }
 

@@ -21,12 +21,21 @@ namespace VisionPro_Assignment
         private CogCircularAnnulusSection circularAnnulusSection = new CogCircularAnnulusSection();
         private CogEllipticalAnnulusSection ellipticalAnnulusSection = new CogEllipticalAnnulusSection();
 
+        private ICogGraphicInteractive graphicInteractive = null;
+
+        private ICogRegion shape = null;
+
         public void NoneShape(ICogImage image)
         {
             none.SetXYWidthHeight(0, 0, image.Width, image.Height);
         }
 
-        public void GetShape(ref ICogRegion shape, int idx)
+        public ICogGraphicInteractive GetGraphicInteractive
+        {
+            get => graphicInteractive;
+        }
+
+        public void GetShape(int idx)
         {
             switch (idx)
             {
@@ -57,20 +66,16 @@ namespace VisionPro_Assignment
             }
         }
 
-        public void DisplayGraphic(CogDisplay display, ICogRegion shape)
+        public void DisplayGraphic()
         {
-            ICogGraphicInteractive pTrainInteractive = null;
+            graphicInteractive = (ICogGraphicInteractive)shape;
+            graphicInteractive.DragLineStyle = CogGraphicLineStyleConstants.Solid;
+            graphicInteractive.LineStyle = CogGraphicLineStyleConstants.Solid;
+            graphicInteractive.SelectedLineStyle = CogGraphicLineStyleConstants.Solid;
+            graphicInteractive.MouseCursor = CogStandardCursorConstants.ManipulableGraphic;
+            graphicInteractive.GraphicDOFEnableBase = CogGraphicDOFConstants.All;
+            graphicInteractive.Interactive = true;
 
-            pTrainInteractive = (ICogGraphicInteractive)shape;
-            pTrainInteractive.DragLineStyle = CogGraphicLineStyleConstants.Solid;
-            pTrainInteractive.LineStyle = CogGraphicLineStyleConstants.Solid;
-            pTrainInteractive.SelectedLineStyle = CogGraphicLineStyleConstants.Solid;
-            pTrainInteractive.MouseCursor = CogStandardCursorConstants.ManipulableGraphic;
-            pTrainInteractive.GraphicDOFEnableBase = CogGraphicDOFConstants.All;
-            pTrainInteractive.Interactive = true;
-
-            display.InteractiveGraphics.Clear();
-            display.InteractiveGraphics.Add(pTrainInteractive, "", false);
         }
 
 

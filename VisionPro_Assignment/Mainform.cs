@@ -21,11 +21,15 @@ namespace VisionPro_Assignment
         private static string directory = "C:\\Users\\Public\\Documents\\Cognex\\In-Sight\\In-Sight Explorer 5.8.0\\Sample Jobs\\EasyBuilder\\5x\\Bracket Inspection";
         private static List<string> imageList = new List<string>();
 
+        private static SettingForm sForm = new SettingForm();
 
 
         public Mainform()
         {
             InitializeComponent();
+
+            sForm.graphicInteractiveEvent += new GraphicInteractiveEventHander(this.GetGraphicInteractive);
+
         }
 
         private void Mainform_Load(object sender, EventArgs e)
@@ -42,16 +46,9 @@ namespace VisionPro_Assignment
 
             cogDisplay1.Image = image[0];
 
-        }
+            sForm.SetImage = cogDisplay1.Image;
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if(Application.OpenForms.OfType<SettingForm>().Count() == 0)
-            {
-                SettingForm form = new SettingForm(this);
 
-                form.Show();
-            }
         }
 
         public CogDisplay Display
@@ -59,5 +56,18 @@ namespace VisionPro_Assignment
             get => cogDisplay1; 
         }
 
+        private void SettingBtn_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms.OfType<SettingForm>().Count() == 0)
+            {
+                sForm.Show();
+            }
+        }
+
+        private void GetGraphicInteractive(ICogGraphicInteractive graphicInteractive)
+        {
+            cogDisplay1.InteractiveGraphics.Clear();
+            cogDisplay1.InteractiveGraphics.Add(graphicInteractive, "", false);
+        }
     }
 }
